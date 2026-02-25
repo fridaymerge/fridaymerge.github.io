@@ -211,10 +211,17 @@ function drawUI() {
 
     if (!gameStarted) {
         ctx.font = '36px "Outfit", sans-serif';
-        ctx.fillText('Move mouse to guide your particle.', width / 2, height / 2 - 40);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Move mouse to guide your particle.', width / 2, height / 2 - 60);
+
+        ctx.font = '20px "Outfit", sans-serif';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.fillText('Absorb smaller spheres to grow. Avoid larger spheres or Game Over.', width / 2, height / 2 - 20);
+        ctx.fillText('Watch out for fast Splitters that cut your mass in half!', width / 2, height / 2 + 10);
+
         ctx.font = '24px "Outfit", sans-serif';
         ctx.fillStyle = 'rgba(0, 210, 255, 0.8)';
-        ctx.fillText('Click anywhere to begin Merge.', width / 2, height / 2 + 20);
+        ctx.fillText('Click anywhere to begin Merge.', width / 2, height / 2 + 60);
     } else if (gameOver) {
         ctx.font = '48px "Outfit", sans-serif';
         ctx.fillStyle = '#ff4c29';
