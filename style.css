@@ -82,9 +82,10 @@ html {
 }
 
 .fm-icon {
-    width: 60px;
+    width: 75px;
     height: auto;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+    mix-blend-mode: overlay;
+    transition: filter 0.3s ease;
 }
 
 @keyframes fadeAndDim {
