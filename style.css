@@ -39,19 +39,23 @@ html {
     text-align: center;
     pointer-events: none;
     user-select: none;
-    animation: fadeIn 3s ease-in-out forwards;
-    opacity: 0;
 
-    /* This makes the white text interact with the colored canvas underneath
-       It looks like the text is "absorbing" or being lit by the colors */
+    /* Mix-blend-mode makes the text "absorb" the background colors */
     mix-blend-mode: overlay;
+
+    /* New complex animation: Fade in bright, then dim down to be lit by the spheres */
+    animation: fadeAndDim 5s ease-in-out forwards;
+    opacity: 0;
 }
 
-.brand-logo {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    margin-bottom: 20px;
+.logo-text {
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    margin-bottom: 10px;
 }
 
 .subtitle {
@@ -83,15 +87,29 @@ html {
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
 }
 
-@keyframes fadeIn {
+@keyframes fadeAndDim {
     0% {
         opacity: 0;
         transform: translate(-50%, -40%);
         filter: blur(10px);
     }
 
-    100% {
+    /* Peak brightness (fully visible) */
+    40% {
         opacity: 1;
+        transform: translate(-50%, -50%);
+        filter: blur(0px);
+    }
+
+    /* Holds peak brightness for a moment */
+    60% {
+        opacity: 1;
+    }
+
+    /* Dims down to heavily rely on the canvas spheres for lighting */
+    100% {
+        opacity: 0.2;
+        /* Dims so that the blend-mode lighting is more dramatic */
         transform: translate(-50%, -50%);
         filter: blur(0px);
     }
