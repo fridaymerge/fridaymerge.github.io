@@ -283,10 +283,18 @@ function animate() {
                     let massLost = player.mass; // It was halved, so the lost amount is equal to the new current amount
                     // Create a burst of small particles flying outward
                     for (let burst = 0; burst < 30; burst++) {
-                        let spark = new Particle(player.x, player.y, Math.random() * 4 + 2, player.color);
+                        let sparkR = Math.random() * 4 + 2;
+                        let angle = Math.random() * Math.PI * 2;
+
+                        // Spawn them just outside the player's new radius so they aren't instantly eaten
+                        let spawnDist = player.r + sparkR + 5;
+                        let sx = player.x + Math.cos(angle) * spawnDist;
+                        let sy = player.y + Math.sin(angle) * spawnDist;
+
+                        let spark = new Particle(sx, sy, sparkR, player.color);
                         // Make them fly out fast and far
-                        spark.vx = (Math.random() - 0.5) * 15;
-                        spark.vy = (Math.random() - 0.5) * 15;
+                        spark.vx = Math.cos(angle) * (Math.random() * 10 + 5);
+                        spark.vy = Math.sin(angle) * (Math.random() * 10 + 5);
                         particles.push(spark);
                     }
 
