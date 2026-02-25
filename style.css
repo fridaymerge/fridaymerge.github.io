@@ -44,13 +44,14 @@ html {
     opacity: 0;
 }
 
-.brand-logo {
-    width: 100%;
-    max-width: 400px;
-    /* Adjust size based on preference */
-    height: auto;
-    filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.4));
-    margin-bottom: 5px;
+.logo-text {
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(0, 210, 255, 0.2);
+    margin-bottom: 10px;
 }
 
 .subtitle {
