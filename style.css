@@ -47,15 +47,11 @@ html {
     mix-blend-mode: overlay;
 }
 
-.logo-text {
-    font-size: clamp(3rem, 10vw, 8rem);
-    font-weight: 200;
-    letter-spacing: 0.2em;
-    color: #ffffff;
-    text-transform: uppercase;
-    /* Soft ambient glow instead of intense neon, allowing spheres to provide the major lighting */
-    text-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
-    margin-bottom: 10px;
+.brand-logo {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 20px;
 }
 
 .subtitle {
