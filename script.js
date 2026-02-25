@@ -277,6 +277,19 @@ function animate() {
                     score = player.mass;
                     particles.splice(i, 1);
                     spawnParticle();
+
+                    // Sonic losing rings explosion effect!
+                    // Calculate how much mass was lost
+                    let massLost = player.mass; // It was halved, so the lost amount is equal to the new current amount
+                    // Create a burst of small particles flying outward
+                    for (let burst = 0; burst < 30; burst++) {
+                        let spark = new Particle(player.x, player.y, Math.random() * 4 + 2, player.color);
+                        // Make them fly out fast and far
+                        spark.vx = (Math.random() - 0.5) * 15;
+                        spark.vy = (Math.random() - 0.5) * 15;
+                        particles.push(spark);
+                    }
+
                 } else if (player.r >= p.r) {
                     // Player absorbs normal particle
                     player.mass += p.mass;
