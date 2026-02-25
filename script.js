@@ -142,6 +142,34 @@ function initGame() {
     }
 }
 
+class Splitter extends Particle {
+    constructor(x, y) {
+        super(x, y, 12, '#ffffff'); // Small, sharp white elements indicating danger
+        this.isSplitter = true;
+        this.vx = (Math.random() - 0.5) * 4; // Much faster than normal particles
+        this.vy = (Math.random() - 0.5) * 4;
+    }
+
+    draw() {
+        ctx.beginPath();
+        // Draw a sharp diamond shape instead of a circle
+        ctx.moveTo(this.x, this.y - this.r);
+        ctx.lineTo(this.x + this.r, this.y);
+        ctx.lineTo(this.x, this.y + this.r);
+        ctx.lineTo(this.x - this.r, this.y);
+        ctx.closePath();
+
+        ctx.fillStyle = this.color;
+
+        // Fierce red/white glow
+        ctx.shadowColor = '#ff4c29';
+        ctx.shadowBlur = this.r * 2;
+
+        ctx.fill();
+        ctx.shadowBlur = 0;
+    }
+}
+
 function spawnParticle() {
     // Spawn safely away from the player
     let px = Math.random() * width;
@@ -157,7 +185,13 @@ function spawnParticle() {
 
     // Create particles that range from very small to slightly threatening
     let r = Math.random() * 20 + 2;
-    particles.push(new Particle(px, py, r));
+
+    // 5% chance to spawn a splitter instead of a normal particle
+    if (Math.random() < 0.05) {
+        particles.push(new Splitter(px, py));
+    } else {
+        particles.push(new Particle(px, py, r));
+    }
 }
 
 function drawUI() {
@@ -219,8 +253,25 @@ function animate() {
 
             // Collision!
             if (dist < player.r + p.r) {
-                if (player.r >= p.r) {
-                    // Player absorbs particle
+                if (p.isSplitter) {
+                    // Splitter cuts mass in half!
+                    player.mass = Math.max(Math.PI * 15 * 15, player.mass / 2); // Cannot go below starting size
+                    player.r = Math.sqrt(player.mass / Math.PI);
+
+                    // Visual slice effect
+                    ctx.beginPath();
+                    ctx.moveTo(player.x - player.r, player.y - player.r);
+                    ctx.lineTo(player.x + player.r, player.y + player.r);
+                    ctx.strokeStyle = '#ff4c29';
+                    ctx.lineWidth = 10;
+                    ctx.stroke();
+
+                    // Destroy Splitter
+                    score = player.mass;
+                    particles.splice(i, 1);
+                    spawnParticle();
+                } else if (player.r >= p.r) {
+                    // Player absorbs normal particle
                     player.mass += p.mass;
                     player.r = Math.sqrt(player.mass / Math.PI); // Grow
                     player.color = p.color; // Absorb color momentarily
@@ -238,7 +289,7 @@ function animate() {
                     // Spawn a new particle to keep game going
                     spawnParticle();
                 } else {
-                    // Particle absorbs Player -> Game Over
+                    // Normal Particle absorbs Player -> Game Over
                     gameOver = true;
                     // Visual explosion
                     for (let burst = 0; burst < 20; burst++) {
